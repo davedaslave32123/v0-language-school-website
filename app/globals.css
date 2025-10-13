@@ -1,0 +1,266 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated color tokens to match red-blue-white design from marketing materials */
+  --background: oklch(1 0 0); /* White background */
+  --foreground: oklch(0.2 0 0); /* Dark text */
+  --card: oklch(0.96 0 0); /* Light gray cards */
+  --card-foreground: oklch(0.2 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0 0);
+  --primary: oklch(0.55 0.22 27); /* Red primary color */
+  --primary-foreground: oklch(1 0 0); /* White text on red */
+  --secondary: oklch(0.6 0.15 250); /* Blue secondary color */
+  --secondary-foreground: oklch(1 0 0); /* White text on blue */
+  --muted: oklch(0.96 0 0); /* Light gray */
+  --muted-foreground: oklch(0.5 0 0); /* Medium gray text */
+  --accent: oklch(0.6 0.15 250); /* Blue accent */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9 0 0); /* Light border */
+  --input: oklch(1 0 0);
+  --ring: oklch(0.6 0.15 250); /* Blue focus ring */
+  --chart-1: oklch(0.55 0.22 27); /* Red */
+  --chart-2: oklch(0.6 0.15 250); /* Blue */
+  --chart-3: oklch(0.7 0.1 60); /* Yellow accent */
+  --chart-4: oklch(0.6 0.1 180); /* Teal */
+  --chart-5: oklch(0.5 0.1 300); /* Purple */
+  --radius: 0.625rem;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.2 0 0);
+  --sidebar-primary: oklch(0.55 0.22 27);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.6 0.15 250);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.6 0.15 250);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.6 0.22 27);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.65 0.15 250);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.65 0.15 250);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.65 0.15 250);
+  --chart-1: oklch(0.6 0.22 27);
+  --chart-2: oklch(0.65 0.15 250);
+  --chart-3: oklch(0.7 0.1 60);
+  --chart-4: oklch(0.6 0.1 180);
+  --chart-5: oklch(0.5 0.1 300);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.6 0.22 27);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.65 0.15 250);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.65 0.15 250);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Added custom font families for Polish typography */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Enhanced grid pattern with dynamic flowing shapes */
+  .grid-pattern {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+  }
+
+  .grid-pattern::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse 800px 400px at 20% 30%, oklch(0.55 0.22 27 / 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 300px at 80% 70%, oklch(0.6 0.15 250 / 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 400px 200px at 50% 90%, oklch(0.55 0.22 27 / 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Added 3D text effects for dynamic typography */
+  .text-3d {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 4px 4px 8px rgba(0, 0, 0, 0.2), 6px 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-3d-blue {
+    text-shadow: 2px 2px 4px rgba(59, 130, 246, 0.3), 4px 4px 8px rgba(59, 130, 246, 0.2);
+  }
+
+  /* Modified flag containers to show full flag designs instead of heart shapes */
+  .flag-heart {
+    width: 32px;
+    height: 20px;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .flag-heart::before,
+  .flag-heart::after {
+    display: none;
+  }
+
+  /* Individual flag designs */
+  .flag-uk {
+    background: linear-gradient(45deg, #012169 25%, transparent 25%),
+      linear-gradient(-45deg, #012169 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #012169 75%),
+      linear-gradient(-45deg, transparent 75%, #012169 75%),
+      linear-gradient(to right, #c8102e 40%, white 40%, white 60%, #c8102e 60%),
+      linear-gradient(to bottom, #c8102e 40%, white 40%, white 60%, #c8102e 60%), #012169;
+    background-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px, 100% 100%, 100% 100%, 100% 100%;
+  }
+
+  .flag-france {
+    background: linear-gradient(to right, #002654 33.33%, white 33.33%, white 66.66%, #ed2939 66.66%);
+  }
+
+  .flag-germany {
+    background: linear-gradient(to bottom, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%);
+  }
+
+  .flag-spain {
+    background: linear-gradient(to bottom, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%);
+  }
+
+  /* Enhanced USA flag design for better visibility */
+  .flag-usa {
+    background: linear-gradient(to right, #3c3b6e 0%, #3c3b6e 40%, transparent 40%),
+      repeating-linear-gradient(to bottom, #b22234 0px, #b22234 1.5px, white 1.5px, white 3px);
+    position: relative;
+  }
+
+  .flag-usa::after {
+    content: "★";
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  /* Dynamic curved shapes for modern look */
+  .dynamic-shape {
+    position: absolute;
+    border-radius: 50% 30% 70% 40%;
+    opacity: 0.6;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .dynamic-shape-1 {
+    top: 10%;
+    left: 5%;
+    width: 200px;
+    height: 150px;
+    background: linear-gradient(135deg, oklch(0.55 0.22 27 / 0.2), oklch(0.6 0.15 250 / 0.2));
+    animation-delay: 0s;
+  }
+
+  .dynamic-shape-2 {
+    top: 60%;
+    right: 10%;
+    width: 150px;
+    height: 200px;
+    background: linear-gradient(45deg, oklch(0.6 0.15 250 / 0.15), oklch(0.55 0.22 27 / 0.15));
+    animation-delay: 2s;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  /* Added blue oval accent utility */
+  .blue-oval {
+    position: relative;
+  }
+
+  .blue-oval::before {
+    content: "";
+    position: absolute;
+    border: 3px solid oklch(0.6 0.15 250);
+    border-radius: 50%;
+    transform: rotate(-15deg);
+  }
+}
