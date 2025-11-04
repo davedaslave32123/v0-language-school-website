@@ -9,7 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: 'export', 
+  output: 'export',
+  basePath: '', // Ta linia naprawia problem ze ścieżkami (CSS/grafiki)
 };
 
 export default nextConfig
