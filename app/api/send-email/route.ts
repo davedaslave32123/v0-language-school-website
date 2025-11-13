@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
     const { data, error } = await resend.emails.send({
-      from: 'Formularz <noreply@agaodjezykow.com>',
+      from: 'onboarding@resend.dev',
       to: ['kontakt@agaodjezykow.com'],
       reply_to: email,
       subject: `Nowa wiadomość od ${[firstName, lastName].filter(Boolean).join(' ') || 'Użytkownik'}`,
