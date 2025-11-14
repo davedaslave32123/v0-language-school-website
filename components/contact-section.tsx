@@ -7,16 +7,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Instagram } from "lucide-react"
 
-// Prosty wybór adresu API:
-// - lokalnie (localhost) używa względnego /api/send-email
-// - na produkcji używa pełnego adresu https://www.agaodjezykow.com/api/send-email
-function getApiUrl() {
-  if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-    return "/api/send-email"
-  }
-  return "https://www.agaodjezykow.com/api/send-email"
-}
-
 export function ContactSection() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -40,14 +30,14 @@ export function ContactSection() {
       if (!formData.email || !formData.message) {
         setSubmitStatus("error")
         setErrorText("Podaj email i wiadomość.")
+        setIsSubmitting(false)
         return
       }
 
-      const res = await fetch(getApiUrl(), {
+      const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-        cache: "no-store",
       })
 
       const maybeJson = await res.json().catch(() => null)
@@ -198,8 +188,6 @@ export function ContactSection() {
                 </p>
               </CardContent>
             </Card>
-
-            {/* Tu możesz dodać kolejne karty z danymi kontaktowymi, mapą itd. */}
           </div>
         </div>
       </div>
