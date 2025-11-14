@@ -1,3 +1,4 @@
+// Fixed version - Nov 14
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
