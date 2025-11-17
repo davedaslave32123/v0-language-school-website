@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Instagram } from "lucide-react"
+import { Instagram, Mail, Phone } from 'lucide-react'
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -185,6 +185,50 @@ export function ContactSection() {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Śledź nas na Instagramie, aby być na bieżąco z naszymi kursami i metodami nauczania!
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-0 shadow-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-secondary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Email</h3>
+                    <a 
+                      href="mailto:kontakt@agaodjezykow.com"
+                      className="text-muted-foreground hover:text-secondary transition-colors"
+                    >
+                      kontakt@agaodjezykow.com
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Napisz do nas w dowolnym czasie. Odpowiadamy zazwyczaj w ciągu 24 godzin.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-0 shadow-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                    <Phone className="w-6 h-6 text-secondary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Telefon</h3>
+                    <a 
+                      href="tel:+48723009938"
+                      className="text-muted-foreground hover:text-secondary transition-colors"
+                    >
+                      +48 723 009 938
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Zadzwoń do nas w godzinach 9:00 - 18:00 od poniedziałku do piątku.
                 </p>
               </CardContent>
             </Card>
