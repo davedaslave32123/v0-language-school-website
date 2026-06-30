@@ -4,113 +4,65 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
 export function HeroSection() {
-  const scrollToContact = () => {
-    console.log("[v0] Hero button clicked, scrolling to contact section")
+  const scrollToForm = () => {
     setTimeout(() => {
-      const contactSection = document.getElementById("kontakt")
-      if (contactSection) {
-        console.log("[v0] Contact section found, scrolling...")
-        contactSection.scrollIntoView({
+      const formSection = document.getElementById("formularz")
+      if (formSection) {
+        formSection.scrollIntoView({
           behavior: "smooth",
           block: "start",
         })
-      } else {
-        console.log("[v0] Contact section not found!")
-      }
-    }, 100)
-  }
-
-  const scrollToAbout = () => {
-    console.log("[v0] Learn more button clicked, scrolling to about section")
-    setTimeout(() => {
-      const aboutSection = document.getElementById("kim-jestesmy")
-      if (aboutSection) {
-        console.log("[v0] About section found, scrolling...")
-        aboutSection.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        })
-      } else {
-        console.log("[v0] About section not found!")
       }
     }, 100)
   }
 
   return (
-    <section className="relative min-h-screen bg-background grid-pattern overflow-hidden">
+    <section className="relative min-h-screen bg-background grid-pattern overflow-hidden flex items-center">
       <div className="dynamic-shape dynamic-shape-1"></div>
       <div className="dynamic-shape dynamic-shape-2"></div>
 
-      <div className="container mx-auto px-4 py-2 lg:py-4 relative z-10">
+      <div className="container mx-auto px-4 py-16 lg:py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 -mt-8 lg:-mt-12">
+          <div className="space-y-6">
             <div className="relative">
-              <h1 className="font-sans text-4xl lg:text-6xl font-bold leading-tight">
-                <span className="text-red-600 text-3d">Aga od języków</span>
-                <br />
+              <div className="absolute -top-4 -left-6 w-32 h-16 border-3 border-primary rounded-full transform -rotate-6 opacity-40"></div>
+              <h1 className="font-serif font-bold leading-snug text-foreground text-[clamp(1.375rem,1.05rem+1.9vw,2.125rem)]">
+                Chcesz w końcu zacząć mówić po angielsku, ale czujesz, że{" "}
+                <span className="text-primary">stoisz w miejscu?</span>
               </h1>
             </div>
 
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Odkryj świat języków w kreatywny sposób! Nasza butikowa szkoła językowa oferuje spersonalizowane podejście
-              do nauki, które sprawia, że każda lekcja to przygoda.
+            <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
+              Przełam barierę językową na własnych warunkach. Bez stresu, bez podpisywania długich umów i bez ryzyka.
+              Zacznij od bezpłatnej, luźnej lekcji próbnej.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                onClick={scrollToContact}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground text-base px-8 py-6"
+                onClick={scrollToForm}
               >
-                Zapisz się na kurs
+                Chcę darmową lekcję próbną
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground bg-transparent"
-                onClick={scrollToAbout}
-              >
-                Dowiedz się więcej
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-6 pt-4 flex-wrap">
-              <div className="flex items-center gap-3">
-                <div className="flag-heart flag-usa"></div>
-                <span className="text-sm text-muted-foreground font-medium">Język angielski</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flag-heart flag-france"></div>
-                <span className="text-sm text-muted-foreground font-medium">Język francuski</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flag-heart flag-germany"></div>
-                <span className="text-sm text-muted-foreground font-medium">Język niemiecki</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flag-heart flag-spain"></div>
-                <span className="text-sm text-muted-foreground font-medium">Język hiszpański</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">B</span>
-                </div>
-                <span className="text-sm text-muted-foreground font-medium">Kursy biznesowe</span>
-              </div>
             </div>
           </div>
 
           <div className="relative">
             <div className="absolute -top-8 -right-8 w-64 h-32 border-4 border-primary rounded-full transform rotate-12 opacity-30 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
             <div className="absolute -bottom-4 -left-4 w-32 h-32 border-3 border-secondary rounded-full transform -rotate-45 opacity-40 bg-gradient-to-tl from-secondary/10 to-primary/10"></div>
-            <div className="relative z-10 bg-card rounded-2xl p-8 shadow-2xl border border-border/50">
-              <Image
-                src="/images/aga-portrait.jpg"
-                alt="Aga - założycielka AKademii Kreatywności"
-                width={400}
-                height={500}
-                className="rounded-xl object-cover w-full shadow-lg"
-              />
+            <div className="relative z-10 bg-card rounded-2xl p-6 lg:p-8 shadow-2xl border border-border/50">
+              <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl shadow-lg">
+                <Image
+                  src="/images/hero-aga.jpg"
+                  alt="Aga - lektorka języka angielskiego"
+                  fill
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 1024px) 92vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

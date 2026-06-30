@@ -2,18 +2,15 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Instagram, Mail, Phone } from 'lucide-react'
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     phone: "",
-    message: "",
+    company: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
@@ -26,10 +23,9 @@ export function ContactSection() {
     setErrorText(null)
 
     try {
-      // krótka walidacja po stronie przeglądarki
-      if (!formData.email || !formData.message) {
+      if (!formData.firstName || !formData.email || !formData.phone) {
         setSubmitStatus("error")
-        setErrorText("Podaj email i wiadomość.")
+        setErrorText("Uzupełnij wszystkie pola.")
         setIsSubmitting(false)
         return
       }
@@ -44,14 +40,12 @@ export function ContactSection() {
 
       if (!res.ok) {
         setSubmitStatus("error")
-        setErrorText(
-          (maybeJson && (maybeJson.error || maybeJson.message)) || `Błąd ${res.status}`
-        )
+        setErrorText((maybeJson && (maybeJson.error || maybeJson.message)) || `Błąd ${res.status}`)
         return
       }
 
       setSubmitStatus("success")
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" })
+      setFormData({ firstName: "", email: "", phone: "", company: "" })
     } catch (err: any) {
       setSubmitStatus("error")
       setErrorText(err?.message || "Wystąpił nieoczekiwany błąd.")
@@ -60,180 +54,99 @@ export function ContactSection() {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
-    <section id="kontakt" className="py-16 lg:py-24 bg-muted/30">
+    <section id="formularz" className="py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="relative inline-block">
             <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-primary rounded-full transform rotate-12 opacity-50"></div>
             <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground">
-              Skontaktuj się z nami
+              Zrób pierwszy krok. Umów się na darmową lekcję próbną.
             </h2>
           </div>
-          <p className="text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Masz pytania? Chcesz zapisać się na kurs? Napisz do nas!
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Formularz */}
-          <Card className="bg-card border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="font-serif text-2xl text-foreground">Napisz do nas</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      name="firstName"
-                      placeholder="Imię"
-                      className="bg-background"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Input
-                      name="lastName"
-                      placeholder="Nazwisko"
-                      className="bg-background"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <Input
-                    name="email"
-                    placeholder="Email"
-                    type="email"
-                    className="bg-background"
-                    value={formData.email}
+        <Card className="bg-card border-0 shadow-lg max-w-xl mx-auto">
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-6">
+                {/* Honeypot: hidden from real users; bots that fill it are rejected server-side. */}
+                <div className="absolute left-[-9999px] top-[-9999px]" aria-hidden="true">
+                  <label htmlFor="company">Nie wypełniaj tego pola</label>
+                  <input
+                    id="company"
+                    name="company"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.company}
                     onChange={handleChange}
-                    required
                   />
-
-                  <Input
-                    name="phone"
-                    placeholder="Telefon"
-                    type="tel"
-                    className="bg-background"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <Textarea
-                    name="message"
-                    placeholder="Twoja wiadomość..."
-                    rows={5}
-                    className="bg-background resize-none"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  {submitStatus === "success" && (
-                    <div
-                      className="p-4 bg-green-100 text-green-800 rounded-md"
-                      role="status"
-                      aria-live="polite"
-                    >
-                      Wiadomość wysłana pomyślnie! Odezwiemy się wkrótce.
-                    </div>
-                  )}
-
-                  {submitStatus === "error" && (
-                    <div
-                      className="p-4 bg-red-100 text-red-800 rounded-md"
-                      role="status"
-                      aria-live="assertive"
-                    >
-                      {errorText ?? "Wystąpił błąd. Spróbuj ponownie później."}
-                    </div>
-                  )}
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}
-                  </Button>
                 </div>
-              </form>
-            </CardContent>
-          </Card>
 
-          {/* Druga kolumna (informacje) */}
-          <div className="space-y-8">
-            <Card className="bg-card border-0 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
-                    <Instagram className="w-6 h-6 text-secondary" />
+                <Input
+                  name="firstName"
+                  placeholder="Imię"
+                  className="bg-background"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+
+                <Input
+                  name="email"
+                  placeholder="Adres e-mail"
+                  type="email"
+                  className="bg-background"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <Input
+                  name="phone"
+                  placeholder="Numer telefonu"
+                  type="tel"
+                  className="bg-background"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+
+                {submitStatus === "success" && (
+                  <div className="p-4 bg-green-100 text-green-800 rounded-md" role="status" aria-live="polite">
+                    Zgłoszenie wysłane pomyślnie! Skontaktuję się z Tobą wkrótce.
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Instagram</h3>
-                    <p className="text-muted-foreground">@aga_od_jezykow</p>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="p-4 bg-red-100 text-red-800 rounded-md" role="status" aria-live="assertive">
+                    {errorText ?? "Wystąpił błąd. Spróbuj ponownie później."}
                   </div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Śledź nas na Instagramie, aby być na bieżąco z naszymi kursami i metodami nauczania!
+                )}
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base py-6"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Wysyłanie..." : "Zapisuję się na darmową lekcję"}
+                </Button>
+
+                <p className="text-sm text-muted-foreground text-center">
+                  Wysyłając zgłoszenie, do niczego się nie zobowiązujesz. Skontaktuję się z Tobą, aby ustalić dogodny
+                  termin.
                 </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card border-0 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-secondary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Email</h3>
-                    <a 
-                      href="mailto:kontakt@agaodjezykow.com"
-                      className="text-muted-foreground hover:text-secondary transition-colors"
-                    >
-                      kontakt@agaodjezykow.com
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Napisz do nas w dowolnym czasie. Odpowiadamy zazwyczaj w ciągu 24 godzin.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card border-0 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-secondary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Telefon</h3>
-                    <a 
-                      href="tel:+48723009938"
-                      className="text-muted-foreground hover:text-secondary transition-colors"
-                    >
-                      +48 723 009 938
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Zadzwoń do nas w godzinach 9:00 - 18:00 od poniedziałku do piątku.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </section>
   )

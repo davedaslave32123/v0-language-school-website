@@ -4,6 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Brand palette: the school has two core colors, red + blue. */
+  --brand-red: oklch(0.55 0.22 27); /* Brand red (~#d12d2d) – passes AA with white text */
+  --brand-blue: oklch(0.52 0.18 260); /* Brand blue (~#2563eb) – darkened for AA white-text contrast */
+
   /* Updated color tokens to match red-blue-white design from marketing materials */
   --background: oklch(1 0 0); /* White background */
   --foreground: oklch(0.2 0 0); /* Dark text */
@@ -11,19 +15,19 @@
   --card-foreground: oklch(0.2 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0 0);
-  --primary: oklch(0.55 0.22 27); /* Red primary color */
+  --primary: var(--brand-red); /* Red primary color */
   --primary-foreground: oklch(1 0 0); /* White text on red */
-  --secondary: oklch(0.6 0.15 250); /* Blue secondary color */
+  --secondary: var(--brand-blue); /* Blue secondary color */
   --secondary-foreground: oklch(1 0 0); /* White text on blue */
   --muted: oklch(0.96 0 0); /* Light gray */
   --muted-foreground: oklch(0.5 0 0); /* Medium gray text */
-  --accent: oklch(0.6 0.15 250); /* Blue accent */
+  --accent: var(--brand-blue); /* Blue accent */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9 0 0); /* Light border */
   --input: oklch(1 0 0);
-  --ring: oklch(0.6 0.15 250); /* Blue focus ring */
+  --ring: var(--brand-blue); /* Blue focus ring */
   --chart-1: oklch(0.55 0.22 27); /* Red */
   --chart-2: oklch(0.6 0.15 250); /* Blue */
   --chart-3: oklch(0.7 0.1 60); /* Yellow accent */
@@ -76,6 +80,8 @@
 }
 
 @theme inline {
+  --color-brand-red: var(--brand-red);
+  --color-brand-blue: var(--brand-blue);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -142,8 +148,8 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(ellipse 800px 400px at 20% 30%, oklch(0.55 0.22 27 / 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse 600px 300px at 80% 70%, oklch(0.6 0.15 250 / 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse 400px 200px at 50% 90%, oklch(0.55 0.22 27 / 0.08) 0%, transparent 50%);
+      radial-gradient(ellipse 600px 300px at 80% 70%, oklch(0.52 0.18 260 / 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 400px 200px at 50% 90%, oklch(0.52 0.18 260 / 0.08) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -221,7 +227,7 @@
     left: 5%;
     width: 200px;
     height: 150px;
-    background: linear-gradient(135deg, oklch(0.55 0.22 27 / 0.2), oklch(0.6 0.15 250 / 0.2));
+    background: linear-gradient(135deg, oklch(0.55 0.22 27 / 0.2), oklch(0.52 0.18 260 / 0.22));
     animation-delay: 0s;
   }
 
@@ -230,7 +236,7 @@
     right: 10%;
     width: 150px;
     height: 200px;
-    background: linear-gradient(45deg, oklch(0.6 0.15 250 / 0.15), oklch(0.55 0.22 27 / 0.15));
+    background: linear-gradient(45deg, oklch(0.52 0.18 260 / 0.18), oklch(0.55 0.22 27 / 0.15));
     animation-delay: 2s;
   }
 
