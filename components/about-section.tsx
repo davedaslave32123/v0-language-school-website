@@ -29,15 +29,16 @@ export function AboutSection() {
           <div className="relative lg:sticky lg:top-12">
             <div className="absolute -top-6 -left-6 w-48 h-24 border-4 border-primary rounded-full transform rotate-6 opacity-40"></div>
             <Card className="relative z-10 bg-card border-0 shadow-lg overflow-hidden">
-              <Image
-                src="/images/aga-portrait.jpg"
-                alt="Aga - lektorka języka angielskiego"
-                width={500}
-                height={500}
-                loading="lazy"
-                sizes="(max-width: 1024px) 92vw, 45vw"
-                className="w-full h-96 object-cover"
-              />
+              <div className="relative w-full aspect-[4/5]">
+                <Image
+                  src="/images/aga-dots.jpg"
+                  alt="Aga - lektorka języka angielskiego"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 92vw, 45vw"
+                  className="object-cover object-top"
+                />
+              </div>
             </Card>
           </div>
 

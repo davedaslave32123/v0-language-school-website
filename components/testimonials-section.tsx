@@ -1,13 +1,10 @@
 import { Card } from "@/components/ui/card"
+import Image from "next/image"
 
-// Drop real review screenshots into /public/images/reviews/ and reference them here.
-// Each entry: { image: "/images/reviews/<file>", alt: "<short description>" }.
-// Images can have ANY aspect ratio — they are shown uncropped at their natural shape.
 const reviews: { image: string; alt: string }[] = [
-  { image: "/placeholder.svg", alt: "Opinia klienta 1" },
-  { image: "/placeholder.svg", alt: "Opinia klienta 2" },
-  { image: "/placeholder.svg", alt: "Opinia klienta 3" },
-  { image: "/placeholder.svg", alt: "Opinia klienta 4" },
+  { image: "/images/reviews/review-1.png", alt: "Opinia klienta Arek" },
+  { image: "/images/reviews/review-2.png", alt: "Opinia klienta Gabrysia" },
+  { image: "/images/reviews/review-3.png", alt: "Opinia klienta Ania" },
 ]
 
 export function TestimonialsSection() {
@@ -23,21 +20,22 @@ export function TestimonialsSection() {
           </div>
         </div>
 
-        {/* Masonry-style columns: stacked on mobile, multi-column on larger screens.
-            break-inside-avoid keeps each review intact; images keep their natural ratio. */}
-        <div className="max-w-5xl mx-auto columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           {reviews.map((review, index) => (
             <Card
               key={index}
-              className="mb-6 break-inside-avoid bg-card border-0 shadow-lg overflow-hidden"
+              className="bg-card border-0 shadow-lg overflow-hidden py-0"
             >
-              <img
-                src={review.image || "/placeholder.svg"}
-                alt={review.alt}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto block"
-              />
+              <div className="relative w-full aspect-square">
+                <Image
+                  src={review.image}
+                  alt={review.alt}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 92vw, 30vw"
+                  className="object-contain"
+                />
+              </div>
             </Card>
           ))}
         </div>

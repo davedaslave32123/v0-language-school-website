@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const points = [
   {
-    title: "Jesteś zblokowana/y?",
+    title: "Jesteś zblokowana?",
     description:
       "Rozumiesz, co ktoś mówi, w głowie znasz słówka, ale gdy masz się odezwać – pojawia się paraliż?",
     color: "primary",
