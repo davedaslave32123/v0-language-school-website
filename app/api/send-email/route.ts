@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: ['kontakt@agaodjezykow.com'],
-      reply_to: mail,
+      replyTo: mail,
       subject: `Nowe zgłoszenie na lekcję próbną od ${name}`,
       text:
 `Imię: ${name}
