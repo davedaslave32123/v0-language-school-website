@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card"
+import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
 
 const reasons = [
@@ -23,7 +24,7 @@ const reasons = [
 
 export function AboutSection() {
   return (
-    <section id="o-mnie" className="py-16 lg:py-24 bg-background grid-pattern">
+    <section id="o-mnie" className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div className="relative lg:sticky lg:top-12">
@@ -45,7 +46,9 @@ export function AboutSection() {
           <div className="space-y-8">
             <div className="relative">
               <div className="absolute -top-3 -right-8 w-20 h-10 border-3 border-secondary rounded-full transform rotate-12 opacity-60"></div>
-              <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground">Cześć, jestem Aga! 👋</h2>
+              <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
+                Cześć, jestem Aga! 👋
+              </h2>
             </div>
 
             <p className="text-lg text-foreground leading-relaxed">
@@ -77,6 +80,10 @@ export function AboutSection() {
                 Udowodnię Ci, że na to wszystko jest rada. Moje lekcje próbne są po to, żebyś w 100% bezpiecznej,
                 luźnej atmosferze zobaczyła, że mówienie po angielsku może być przyjemnością, a nie egzaminem.
               </p>
+            </div>
+
+            <div className="flex justify-center lg:justify-start">
+              <TrialCtaButton />
             </div>
           </div>
         </div>

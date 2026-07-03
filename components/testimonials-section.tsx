@@ -9,12 +9,12 @@ const reviews: { image: string; alt: string }[] = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-16 lg:py-24 bg-muted/30">
+    <section className="py-12 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <div className="relative inline-block">
             <div className="absolute -top-2 -left-6 w-24 h-12 border-3 border-secondary rounded-full transform -rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
               Zobacz, jak inni przełamali swoją blokadę:
             </h2>
           </div>
@@ -24,7 +24,7 @@ export function TestimonialsSection() {
           {reviews.map((review, index) => (
             <Card
               key={index}
-              className="bg-card border-0 shadow-lg overflow-hidden py-0"
+              className="bg-card border-0 shadow-lg overflow-hidden py-0 w-[280px] mx-auto lg:w-auto lg:mx-0"
             >
               <div className="relative w-full aspect-square">
                 <Image
@@ -32,7 +32,7 @@ export function TestimonialsSection() {
                   alt={review.alt}
                   fill
                   loading="lazy"
-                  sizes="(max-width: 1024px) 92vw, 30vw"
+                  sizes="(max-width: 1024px) 280px, 30vw"
                   className="object-contain"
                 />
               </div>

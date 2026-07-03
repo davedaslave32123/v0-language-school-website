@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
+import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
 
 const tutors = [
@@ -24,12 +25,12 @@ const tutors = [
 
 export function TeamSection() {
   return (
-    <section id="zespol" className="py-16 lg:py-24 bg-muted/30">
+    <section id="zespol" className="py-12 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <div className="relative inline-block">
             <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-secondary rounded-full transform rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
               Poznaj mój zespół – dzięki niemu polubisz angielski
             </h2>
           </div>
@@ -42,14 +43,17 @@ export function TeamSection() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {tutors.map((tutor, index) => (
-            <Card key={index} className="bg-card border-0 shadow-lg h-full overflow-hidden py-0">
+            <Card
+              key={index}
+              className="bg-card border-0 shadow-lg h-full overflow-hidden py-0 w-[280px] mx-auto sm:w-auto sm:mx-0"
+            >
               <div className="relative w-full aspect-[4/5] overflow-hidden rounded-t-xl">
                 <Image
                   src={tutor.photo}
                   alt={tutor.name}
                   fill
                   loading="lazy"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px"
+                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 45vw, 320px"
                   className="object-cover"
                 />
               </div>
@@ -59,6 +63,10 @@ export function TeamSection() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="flex justify-center mt-12">
+          <TrialCtaButton />
         </div>
       </div>
     </section>

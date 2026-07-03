@@ -34,12 +34,12 @@ const principles = [
 
 export function PrinciplesSection() {
   return (
-    <section className="py-16 lg:py-24 bg-background grid-pattern">
+    <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <div className="relative inline-block">
             <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-primary rounded-full transform rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
               Zero haczyków. 100% transparentności.
             </h2>
           </div>

@@ -1,21 +1,7 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
+import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
 
 export function HeroSection() {
-  const scrollToForm = () => {
-    setTimeout(() => {
-      const formSection = document.getElementById("formularz")
-      if (formSection) {
-        formSection.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        })
-      }
-    }, 100)
-  }
-
   return (
     <section className="relative min-h-screen bg-background grid-pattern overflow-hidden flex items-center">
       <div className="dynamic-shape dynamic-shape-1"></div>
@@ -38,13 +24,7 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground text-base px-8 py-6"
-                onClick={scrollToForm}
-              >
-                Chcę darmową lekcję próbną
-              </Button>
+              <TrialCtaButton />
             </div>
           </div>
 
