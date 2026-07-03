@@ -7,27 +7,24 @@ export function HeroSection() {
       <div className="dynamic-shape dynamic-shape-1"></div>
       <div className="dynamic-shape dynamic-shape-2"></div>
 
-      <div className="container mx-auto px-4 py-16 lg:py-20 relative z-10">
+      <div className="container mx-auto px-4 py-8 lg:py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="flex items-center gap-3 lg:hidden">
-              <div className="relative shrink-0">
-                <div className="absolute -top-1.5 -right-1.5 w-7 h-7 border-2 border-primary rounded-full opacity-40"></div>
-                <div className="relative z-10 w-16 h-20 bg-card rounded-xl p-1 shadow-lg border border-border/50 overflow-hidden">
-                  <div className="relative w-full h-full overflow-hidden rounded-lg">
-                    <Image
-                      src="/images/hero-aga.jpg"
-                      alt="Aga - lektorka języka angielskiego"
-                      fill
-                      priority
-                      fetchPriority="high"
-                      sizes="64px"
-                      className="object-cover"
-                    />
-                  </div>
+            <div className="lg:hidden relative w-full max-w-[240px] mx-auto">
+              <div className="absolute -top-4 -right-4 w-16 h-16 border-2 border-primary rounded-full transform rotate-12 opacity-30"></div>
+              <div className="relative z-10 bg-card rounded-2xl p-2.5 shadow-xl border border-border/50">
+                <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl">
+                  <Image
+                    src="/images/hero-aga.jpg"
+                    alt="Aga - lektorka języka angielskiego"
+                    fill
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 1024px) 240px, 0px"
+                    className="object-cover"
+                  />
                 </div>
               </div>
-              <p className="text-sm font-medium text-muted-foreground">Aga, lektorka angielskiego</p>
             </div>
 
             <div className="relative">
