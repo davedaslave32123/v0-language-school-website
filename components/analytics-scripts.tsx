@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Script from "next/script"
 import { CONSENT_EVENT, getConsent, type ConsentValue } from "@/lib/consent"
 
@@ -9,12 +9,30 @@ const META_PIXEL_ID = "5590292397743929"
 
 export function AnalyticsScripts() {
   const [consent, setConsentState] = useState<ConsentValue | null>(null)
+  const previousConsentRef = useRef<ConsentValue | null>(null)
 
   useEffect(() => {
-    setConsentState(getConsent())
+    const initialConsent = getConsent()
+    previousConsentRef.current = initialConsent
+    setConsentState(initialConsent)
 
     const handleConsentChange = (event: Event) => {
-      setConsentState((event as CustomEvent<ConsentValue | null>).detail)
+      const newConsent = (event as CustomEvent<ConsentValue | null>).detail
+
+      // If we were previously granted and are now transitioning away from
+      // granted, already-loaded third-party scripts (GTM, Clarity, Meta
+      // Pixel) can't be un-loaded by simply unmounting their <Script> tags —
+      // Clarity in particular keeps recording. Force a full reload so the
+      // withdrawal actually takes effect, per the privacy policy's promise
+      // that consent can be withdrawn at any time.
+      if (previousConsentRef.current === "granted" && newConsent !== "granted") {
+        previousConsentRef.current = newConsent
+        window.location.reload()
+        return
+      }
+
+      previousConsentRef.current = newConsent
+      setConsentState(newConsent)
     }
 
     window.addEventListener(CONSENT_EVENT, handleConsentChange)
