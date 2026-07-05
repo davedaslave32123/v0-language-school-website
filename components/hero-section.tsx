@@ -1,5 +1,6 @@
 import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
+import { Instagram } from "lucide-react"
 
 export function HeroSection() {
   return (
@@ -40,8 +41,17 @@ export function HeroSection() {
               Zacznij od bezpłatnej, luźnej lekcji próbnej.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-row items-center gap-4">
               <TrialCtaButton />
+              <a
+                href="https://instagram.com/aga_od_jezykow"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-primary text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
             </div>
           </div>
 
