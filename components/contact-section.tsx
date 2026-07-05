@@ -15,6 +15,7 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [errorText, setErrorText] = useState<string | null>(null)
+  const [consentChecked, setConsentChecked] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,6 +27,13 @@ export function ContactSection() {
       if (!formData.firstName || !formData.email || !formData.phone) {
         setSubmitStatus("error")
         setErrorText("Uzupełnij wszystkie pola.")
+        setIsSubmitting(false)
+        return
+      }
+
+      if (!consentChecked) {
+        setSubmitStatus("error")
+        setErrorText("Wyrażenie zgody na przetwarzanie danych jest wymagane.")
         setIsSubmitting(false)
         return
       }
@@ -51,6 +59,7 @@ export function ContactSection() {
 
       setSubmitStatus("success")
       setFormData({ firstName: "", email: "", phone: "", company: "" })
+      setConsentChecked(false)
     } catch (err: any) {
       setSubmitStatus("error")
       setErrorText(err?.message || "Wystąpił nieoczekiwany błąd.")
@@ -123,6 +132,20 @@ export function ContactSection() {
                   required
                 />
 
+                <label className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={consentChecked}
+                    onChange={(e) => setConsentChecked(e.target.checked)}
+                    className="mt-1 h-4 w-4 flex-shrink-0 rounded border-input accent-primary"
+                  />
+                  <span>
+                    Wyrażam zgodę na przetwarzanie moich danych osobowych (imię, e-mail,
+                    telefon) w celu kontaktu i umówienia bezpłatnej lekcji próbnej.
+                  </span>
+                </label>
+
                 {submitStatus === "success" && (
                   <div className="p-4 bg-green-100 text-green-800 rounded-md" role="status" aria-live="polite">
                     Zgłoszenie wysłane pomyślnie! Skontaktuję się z Tobą wkrótce.
@@ -139,7 +162,7 @@ export function ContactSection() {
                   type="submit"
                   size="lg"
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base py-6"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !consentChecked}
                 >
                   {isSubmitting ? "Wysyłanie..." : "Zapisuję się na darmową lekcję"}
                 </Button>
@@ -147,6 +170,17 @@ export function ContactSection() {
                 <p className="text-sm text-muted-foreground text-center">
                   Wysyłając zgłoszenie, do niczego się nie zobowiązujesz. Skontaktuję się z Tobą, aby ustalić dogodny
                   termin.
+                </p>
+
+                <p className="text-xs text-muted-foreground text-center leading-relaxed">
+                  Administratorem Twoich danych jest Szkoła Muzyczno-Lingwistyczna Akademia
+                  Kreatywności Agnieszka Stokłosa, ul. Miedziana 12/28, 53-441 Wrocław, NIP
+                  7521430296. Dane przetwarzamy wyłącznie w celu kontaktu w sprawie lekcji
+                  próbnej. Masz prawo dostępu, poprawiania i usunięcia danych. Szczegóły w{" "}
+                  <a href="/polityka-prywatnosci" className="text-primary underline underline-offset-2">
+                    Polityce Prywatności
+                  </a>
+                  .
                 </p>
               </div>
             </form>
