@@ -39,8 +39,13 @@ export function ContactSection() {
       const maybeJson = await res.json().catch(() => null)
 
       if (!res.ok) {
+        const rawError = maybeJson && (maybeJson.error || maybeJson.message)
         setSubmitStatus("error")
-        setErrorText((maybeJson && (maybeJson.error || maybeJson.message)) || `Błąd ${res.status}`)
+        setErrorText(
+          typeof rawError === "string" && rawError.trim()
+            ? rawError
+            : "Coś poszło nie tak. Spróbuj ponownie."
+        )
         return
       }
 

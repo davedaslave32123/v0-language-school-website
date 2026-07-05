@@ -61,11 +61,18 @@ Zgłoszenie na bezpłatną lekcję próbną.`,
       `,
     })
 
-    if (error) return NextResponse.json({ success: false, error }, { status: 502 })
+    if (error) {
+      console.error('[send-email] Resend error:', error)
+      return NextResponse.json(
+        { success: false, error: error.message || 'Nie udało się wysłać wiadomości.' },
+        { status: 502 }
+      )
+    }
     return NextResponse.json({ success: true, data }, { status: 200 })
   } catch (e: any) {
+    console.error('[send-email] Unexpected error:', e)
     return NextResponse.json(
-      { success: false, error: e?.message ?? 'Unexpected error' },
+      { success: false, error: e?.message ?? 'Wystąpił nieoczekiwany błąd.' },
       { status: 500 }
     )
   }
