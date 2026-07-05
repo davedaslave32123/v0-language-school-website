@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { AnalyticsScripts } from "@/components/analytics-scripts"
 import { CookieConsentBanner } from "@/components/cookie-consent-banner"
+import { Footer } from "@/components/footer"
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className="font-sans">
         <AnalyticsScripts />
         {children}
+        <Footer />
         <CookieConsentBanner />
       </body>
     </html>
