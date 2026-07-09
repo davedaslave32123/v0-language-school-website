@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Script from "next/script"
 import { CONSENT_EVENT, getConsent, type ConsentValue } from "@/lib/consent"
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
+const GTM_ID = "GTM-56CG9ZVH"
 const META_PIXEL_ID = "5590292397743929"
 
 export function AnalyticsScripts() {
