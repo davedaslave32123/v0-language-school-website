@@ -3,6 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ThankYouPageViewEvent } from "./thank-you-page-view-event"
 
 export const metadata: Metadata = {
   title: "Dziękujemy — Aga od Języków",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function ThankYouPage() {
   return (
     <main className="min-h-screen">
+      <ThankYouPageViewEvent />
       <section className="relative min-h-screen bg-background grid-pattern overflow-hidden flex items-center">
         <div className="container mx-auto px-4 py-12 sm:py-16 lg:py-24 relative z-10">
           <div className="max-w-2xl mx-auto flex flex-col items-center text-center space-y-8">
