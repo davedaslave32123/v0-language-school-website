@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
 export function ContactSection() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -13,7 +15,7 @@ export function ContactSection() {
     company: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "error">("idle")
   const [errorText, setErrorText] = useState<string | null>(null)
   const [consentChecked, setConsentChecked] = useState(false)
 
@@ -57,9 +59,10 @@ export function ContactSection() {
         return
       }
 
-      setSubmitStatus("success")
       setFormData({ firstName: "", email: "", phone: "", company: "" })
       setConsentChecked(false)
+      router.push("/dziekuje")
+      return
     } catch (err: any) {
       setSubmitStatus("error")
       setErrorText(err?.message || "Wystąpił nieoczekiwany błąd.")
@@ -145,12 +148,6 @@ export function ContactSection() {
                     telefon) w celu kontaktu i umówienia bezpłatnej lekcji próbnej.
                   </span>
                 </label>
-
-                {submitStatus === "success" && (
-                  <div className="p-4 bg-green-100 text-green-800 rounded-md" role="status" aria-live="polite">
-                    Zgłoszenie wysłane pomyślnie! Skontaktuję się z Tobą wkrótce.
-                  </div>
-                )}
 
                 {submitStatus === "error" && (
                   <div className="p-4 bg-red-100 text-red-800 rounded-md" role="status" aria-live="assertive">
