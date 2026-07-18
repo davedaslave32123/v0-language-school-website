@@ -54,7 +54,7 @@ export function SpanishTutorSection() {
         </div>
 
         <div className="flex justify-center mt-12">
-          <TrialCtaButton />
+          <TrialCtaButton className="bg-brand-spanish-yellow text-foreground hover:bg-brand-spanish-yellow/90" />
         </div>
       </div>
     </section>

@@ -32,7 +32,7 @@ export function SpanishHeroSection() {
               <div className="absolute -top-4 -left-6 w-32 h-16 border-3 border-primary rounded-full transform -rotate-6 opacity-40"></div>
               <h1 className="font-serif font-bold leading-snug text-foreground text-[clamp(1.375rem,1.05rem+1.9vw,2.125rem)]">
                 Marzy Ci się swobodny hiszpański, luźne rozmowy z native&apos;ami i{" "}
-                <span className="text-primary">całkowita niezależność w podróży?</span>
+                <span className="text-brand-spanish-yellow">całkowita niezależność w podróży?</span>
               </h1>
             </div>
 
@@ -42,7 +42,7 @@ export function SpanishHeroSection() {
             </p>
 
             <div className="flex flex-row items-center gap-4">
-              <TrialCtaButton />
+              <TrialCtaButton className="bg-brand-spanish-yellow text-foreground hover:bg-brand-spanish-yellow/90" />
               <a
                 href="https://instagram.com/aga_od_jezykow"
                 target="_blank"

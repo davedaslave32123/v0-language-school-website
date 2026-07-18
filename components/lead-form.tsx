@@ -196,7 +196,12 @@ export function LeadForm({ source }: { source: LeadSource }) {
             <Button
               type="submit"
               size="lg"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base py-6"
+              className={cn(
+                "w-full text-base py-6",
+                isSpanish
+                  ? "bg-brand-spanish-yellow text-foreground hover:bg-brand-spanish-yellow/90"
+                  : "bg-primary hover:bg-primary/90 text-primary-foreground"
+              )}
               disabled={isSubmitting || !consentChecked}
             >
               {isSubmitting ? "Wysyłanie..." : "Zapisuję się na darmową lekcję"}

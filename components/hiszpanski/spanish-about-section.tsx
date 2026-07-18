@@ -76,7 +76,7 @@ export function SpanishAboutSection() {
             </div>
 
             <div className="flex justify-center lg:justify-start">
-              <TrialCtaButton />
+              <TrialCtaButton className="bg-brand-spanish-yellow text-foreground hover:bg-brand-spanish-yellow/90" />
             </div>
           </div>
         </div>
