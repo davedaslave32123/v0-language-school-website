@@ -1,5 +1,12 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import {
+  LEAD_SOURCES,
+  LEAD_SOURCE_LABELS,
+  SPANISH_LEVELS,
+  type LeadSource,
+  type SpanishLevel,
+} from '@/lib/leadSource'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -9,7 +16,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}))
-    const { firstName, email, phone, company } = body || {}
+    const { firstName, email, phone, company, source, level } = body || {}
 
     // Honeypot: real users never see/fill `company`. If it's set, it's a bot.
     // Respond with success so the bot believes it worked, but send nothing.
@@ -33,6 +40,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Podaj poprawny numer telefonu.' }, { status: 400 })
     }
 
+    if (!LEAD_SOURCES.includes(source)) {
+      return NextResponse.json(
+        { success: false, error: 'Nieprawidłowe źródło zgłoszenia.' },
+        { status: 400 }
+      )
+    }
+    const leadSource = source as LeadSource
+
+    // Spanish leads must declare a learning level (the form enforces this too).
+    let spanishLevel: SpanishLevel | null = null
+    if (leadSource === 'spanish') {
+      if (!SPANISH_LEVELS.includes(level)) {
+        return NextResponse.json(
+          { success: false, error: 'Zaznacz, na jakim etapie nauki jesteś.' },
+          { status: 400 }
+        )
+      }
+      spanishLevel = level as SpanishLevel
+    }
+
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { success: false, error: 'Brak RESEND_API_KEY w środowisku' },
@@ -42,15 +69,29 @@ export async function POST(request: Request) {
 
     const resend = new Resend(process.env.RESEND_API_KEY)
 
+    const sourceLabel = LEAD_SOURCE_LABELS[leadSource]
+
+    // English keeps its original subject/body; Spanish gets a labelled variant.
+    const subject =
+      leadSource === 'spanish'
+        ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
+        : `Nowe zgłoszenie na lekcję próbną od ${name}`
+
+    const levelTextLine = spanishLevel ? `\nPoziom: ${spanishLevel}` : ''
+    const levelHtmlLine = spanishLevel ? `<p><strong>Poziom:</strong> ${spanishLevel}</p>` : ''
+    const sourceTextLine = leadSource === 'spanish' ? `\nJęzyk: ${sourceLabel}` : ''
+    const sourceHtmlLine =
+      leadSource === 'spanish' ? `<p><strong>Język:</strong> ${sourceLabel}</p>` : ''
+
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: ['kontakt@agaodjezykow.com'],
       replyTo: mail,
-      subject: `Nowe zgłoszenie na lekcję próbną od ${name}`,
+      subject,
       text:
 `Imię: ${name}
 Email: ${mail}
-Telefon: ${tel}
+Telefon: ${tel}${sourceTextLine}${levelTextLine}
 -------------------------
 Zgłoszenie na bezpłatną lekcję próbną.`,
       html: `
@@ -58,7 +99,9 @@ Zgłoszenie na bezpłatną lekcję próbną.`,
         <p><strong>Imię:</strong> ${name}</p>
         <p><strong>Email:</strong> ${mail}</p>
         <p><strong>Telefon:</strong> ${tel}</p>
+        ${sourceHtmlLine}${levelHtmlLine}
       `,
+      tags: [{ name: 'source', value: leadSource }],
     })
 
     if (error) {

@@ -7,6 +7,8 @@
   /* Brand palette: the school has two core colors, red + blue. */
   --brand-red: oklch(0.55 0.22 27); /* Brand red (~#d12d2d) – passes AA with white text */
   --brand-blue: oklch(0.52 0.18 260); /* Brand blue (~#2563eb) – darkened for AA white-text contrast */
+  /* Warm terracotta accent, used sparingly on the Spanish landing page only. */
+  --brand-terracotta: oklch(0.62 0.13 55);
 
   /* Updated color tokens to match red-blue-white design from marketing materials */
   --background: oklch(1 0 0); /* White background */
@@ -82,6 +84,7 @@
 @theme inline {
   --color-brand-red: var(--brand-red);
   --color-brand-blue: var(--brand-blue);
+  --color-brand-terracotta: var(--brand-terracotta);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
