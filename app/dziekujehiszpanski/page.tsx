@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function SpanishThankYouPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen spanish-theme">
       <SpanishLeadEvents />
       <section className="relative min-h-screen bg-background grid-pattern overflow-hidden flex items-center">
         <div className="container mx-auto px-4 py-12 sm:py-16 lg:py-24 relative z-10">

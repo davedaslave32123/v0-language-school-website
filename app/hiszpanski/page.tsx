@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function SpanishLandingPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen spanish-theme">
       <SpanishHeroSection />
       <SpanishStartSection />
       <SpanishAboutSection />

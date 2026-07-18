@@ -9,6 +9,9 @@
   --brand-blue: oklch(0.52 0.18 260); /* Brand blue (~#2563eb) – darkened for AA white-text contrast */
   /* Warm terracotta accent, used sparingly on the Spanish landing page only. */
   --brand-terracotta: oklch(0.62 0.13 55);
+  /* Spanish gold: replaces the blue secondary on /hiszpanski only. Slightly
+     deeper than flag yellow so icons/accents stay visible on white. */
+  --brand-spanish-yellow: oklch(0.75 0.15 85);
 
   /* Updated color tokens to match red-blue-white design from marketing materials */
   --background: oklch(1 0 0); /* White background */
@@ -81,10 +84,22 @@
   --sidebar-ring: oklch(0.65 0.15 250);
 }
 
+/* Spanish landing pages: swap the blue secondary for warm Spanish gold.
+   Scoped to .spanish-theme so the English page keeps its red + blue system.
+   Dark foregrounds keep text readable on yellow (white would fail contrast). */
+.spanish-theme {
+  --secondary: var(--brand-spanish-yellow);
+  --secondary-foreground: oklch(0.25 0.02 85);
+  --accent: var(--brand-spanish-yellow);
+  --accent-foreground: oklch(0.25 0.02 85);
+  --ring: var(--brand-spanish-yellow);
+}
+
 @theme inline {
   --color-brand-red: var(--brand-red);
   --color-brand-blue: var(--brand-blue);
   --color-brand-terracotta: var(--brand-terracotta);
+  --color-brand-spanish-yellow: var(--brand-spanish-yellow);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -158,6 +173,13 @@
       radial-gradient(ellipse 600px 300px at 80% 70%, oklch(0.52 0.18 260 / 0.12) 0%, transparent 50%),
       radial-gradient(ellipse 400px 200px at 50% 90%, oklch(0.52 0.18 260 / 0.08) 0%, transparent 50%);
     pointer-events: none;
+  }
+
+  /* Spanish pages: warm the blue background tints to gold. */
+  .spanish-theme .grid-pattern::before {
+    background: radial-gradient(ellipse 800px 400px at 20% 30%, oklch(0.55 0.22 27 / 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 300px at 80% 70%, oklch(0.8 0.16 90 / 0.16) 0%, transparent 50%),
+      radial-gradient(ellipse 400px 200px at 50% 90%, oklch(0.8 0.16 90 / 0.1) 0%, transparent 50%);
   }
 
   .text-3d {
@@ -245,6 +267,15 @@
     height: 200px;
     background: linear-gradient(45deg, oklch(0.52 0.18 260 / 0.18), oklch(0.55 0.22 27 / 0.15));
     animation-delay: 2s;
+  }
+
+  /* Spanish pages: warm the blue floating shapes to gold. */
+  .spanish-theme .dynamic-shape-1 {
+    background: linear-gradient(135deg, oklch(0.55 0.22 27 / 0.2), oklch(0.8 0.16 90 / 0.28));
+  }
+
+  .spanish-theme .dynamic-shape-2 {
+    background: linear-gradient(45deg, oklch(0.8 0.16 90 / 0.24), oklch(0.55 0.22 27 / 0.15));
   }
 
   @keyframes float {
