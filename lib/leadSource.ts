@@ -7,7 +7,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
 }
 
 export const THANK_YOU_PATHS: Record<LeadSource, string> = {
-  english: '/dziekuje',
+  english: '/dziekujeangielski',
   spanish: '/dziekujehiszpanski',
 }
 
