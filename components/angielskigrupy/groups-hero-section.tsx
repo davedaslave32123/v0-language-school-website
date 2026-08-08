@@ -10,7 +10,7 @@ export function GroupsHeroSection() {
 
       <div className="container mx-auto px-4 py-8 lg:py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
             <div className="lg:hidden relative w-full max-w-[240px] mx-auto">
               <div className="absolute -top-4 -right-4 w-16 h-16 border-2 border-primary rounded-full transform rotate-12 opacity-30"></div>
               <div className="relative z-10 bg-card rounded-2xl p-2.5 shadow-xl border border-border/50">
@@ -28,25 +28,27 @@ export function GroupsHeroSection() {
               </div>
             </div>
 
-            <p className="text-sm sm:text-base font-medium text-primary tracking-wide">
+            <p className="text-sm sm:text-base font-medium text-primary tracking-wide text-pretty">
               Zajęcia grupowe na Twoich zasadach (tylko 2-3 osoby w grupie!)
             </p>
 
-            <div className="relative">
+            <div className="relative min-w-0">
               <div className="absolute -top-4 -left-6 w-32 h-16 border-3 border-primary rounded-full transform -rotate-6 opacity-40"></div>
-              <h1 className="font-serif font-bold leading-snug text-foreground text-[clamp(1.375rem,1.05rem+1.9vw,2.125rem)]">
+              <h1 className="relative font-serif font-bold leading-snug text-foreground break-words text-[clamp(1.25rem,0.95rem+1.5vw,2.125rem)]">
                 Odblokuj swój angielski i zacznij mówić bez stresu. Zapomnij o „szkolnym" wkuwaniu i strachu
                 przed błędem.
               </h1>
             </div>
 
-            <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed text-pretty">
               Dołącz do ultra-kameralnej grupy językowej i potraktuj angielski jak codzienne narzędzie –
               dokładnie tak samo jak język polski. Od zera do swobodnej konwersacji na poziomie B1.
             </p>
 
-            <div className="flex flex-row items-center gap-4">
-              <TrialCtaButton>Zapisz się na bezpłatną lekcję próbną</TrialCtaButton>
+            <div className="flex w-full min-w-0 items-center gap-3 sm:gap-4">
+              <TrialCtaButton className="min-w-0 flex-1 basis-0 !shrink whitespace-normal h-auto min-h-12 text-sm leading-snug text-center px-4 py-4 sm:text-base sm:px-8 sm:py-6 lg:flex-none lg:basis-auto lg:whitespace-nowrap">
+                Zapisz się na bezpłatną lekcję próbną
+              </TrialCtaButton>
               <a
                 href="https://instagram.com/aga_od_jezykow"
                 target="_blank"

@@ -33,9 +33,9 @@ export function GroupsMethodSection() {
     <section className="py-12 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="relative inline-block">
-            <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-primary rounded-full transform rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
+          <div className="relative inline-block max-w-full">
+            <div className="absolute -top-3 -right-2 sm:-right-8 w-28 h-14 border-3 border-primary rounded-full transform rotate-12 opacity-50 pointer-events-none"></div>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground text-balance break-words">
               Dlaczego nasze zajęcia dają efekty?
             </h2>
           </div>
@@ -45,8 +45,8 @@ export function GroupsMethodSection() {
           {methods.map((method, index) => {
             const Icon = method.icon
             return (
-              <Card key={index} className="bg-card border-0 shadow-lg h-full">
-                <CardContent className="p-8 flex items-start gap-5">
+              <Card key={index} className="bg-card border-0 shadow-lg h-full min-w-0">
+                <CardContent className="p-6 sm:p-8 flex items-start gap-4 sm:gap-5">
                   <div
                     className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${
                       method.color === "primary" ? "bg-primary/10" : "bg-secondary/10"
@@ -56,8 +56,8 @@ export function GroupsMethodSection() {
                       className={`w-7 h-7 ${method.color === "primary" ? "text-primary" : "text-secondary"}`}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-xl font-bold text-foreground">{method.title}</h3>
+                  <div className="min-w-0 space-y-2">
+                    <h3 className="font-serif text-xl font-bold text-foreground break-words">{method.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{method.description}</p>
                   </div>
                 </CardContent>

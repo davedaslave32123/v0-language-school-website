@@ -24,9 +24,9 @@ export function GroupsChooseSection() {
     <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="relative inline-block">
-            <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-secondary rounded-full transform rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
+          <div className="relative inline-block max-w-full">
+            <div className="absolute -top-3 -right-2 sm:-right-8 w-28 h-14 border-3 border-secondary rounded-full transform rotate-12 opacity-50 pointer-events-none"></div>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground text-balance break-words">
               W jakiej grupie poczujesz się najlepiej?
             </h2>
           </div>
