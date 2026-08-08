@@ -1,9 +1,16 @@
 "use client"
 
+import type { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export function TrialCtaButton({ className }: { className?: string }) {
+export function TrialCtaButton({
+  className,
+  children = "Chcę darmową lekcję próbną",
+}: {
+  className?: string
+  children?: ReactNode
+}) {
   const scrollToForm = () => {
     setTimeout(() => {
       const formSection = document.getElementById("formularz")
@@ -22,7 +29,7 @@ export function TrialCtaButton({ className }: { className?: string }) {
       className={cn("bg-primary hover:bg-primary/90 text-primary-foreground text-base px-8 py-6", className)}
       onClick={scrollToForm}
     >
-      Chcę darmową lekcję próbną
+      {children}
     </Button>
   )
 }

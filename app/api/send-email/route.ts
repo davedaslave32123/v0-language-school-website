@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import {
+  ENGLISH_GROUPS_FREQUENCIES,
+  ENGLISH_GROUPS_LEVELS,
   LEAD_SOURCES,
   LEAD_SOURCE_LABELS,
   SPANISH_LEVELS,
+  type EnglishGroupsFrequency,
+  type EnglishGroupsLevel,
   type LeadSource,
   type SpanishLevel,
 } from '@/lib/leadSource'
@@ -16,7 +20,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}))
-    const { firstName, email, phone, company, source, level } = body || {}
+    const { firstName, email, phone, company, source, level, frequency } = body || {}
 
     // Honeypot: real users never see/fill `company`. If it's set, it's a bot.
     // Respond with success so the bot believes it worked, but send nothing.
@@ -60,6 +64,26 @@ export async function POST(request: Request) {
       spanishLevel = level as SpanishLevel
     }
 
+    // English-groups leads must declare level + frequency.
+    let groupsLevel: EnglishGroupsLevel | null = null
+    let groupsFrequency: EnglishGroupsFrequency | null = null
+    if (leadSource === 'english-groups') {
+      if (!ENGLISH_GROUPS_LEVELS.includes(level)) {
+        return NextResponse.json(
+          { success: false, error: 'Zaznacz, jak oceniasz swój poziom.' },
+          { status: 400 }
+        )
+      }
+      if (!ENGLISH_GROUPS_FREQUENCIES.includes(frequency)) {
+        return NextResponse.json(
+          { success: false, error: 'Zaznacz częstotliwość zajęć.' },
+          { status: 400 }
+        )
+      }
+      groupsLevel = level as EnglishGroupsLevel
+      groupsFrequency = frequency as EnglishGroupsFrequency
+    }
+
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { success: false, error: 'Brak RESEND_API_KEY w środowisku' },
@@ -71,17 +95,34 @@ export async function POST(request: Request) {
 
     const sourceLabel = LEAD_SOURCE_LABELS[leadSource]
 
-    // English keeps its original subject/body; Spanish gets a labelled variant.
+    // English keeps its original subject/body; Spanish and english-groups get labelled variants.
     const subject =
       leadSource === 'spanish'
         ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
-        : `Nowe zgłoszenie na lekcję próbną od ${name}`
+        : leadSource === 'english-groups'
+          ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
+          : `Nowe zgłoszenie na lekcję próbną od ${name}`
 
-    const levelTextLine = spanishLevel ? `\nPoziom: ${spanishLevel}` : ''
-    const levelHtmlLine = spanishLevel ? `<p><strong>Poziom:</strong> ${spanishLevel}</p>` : ''
-    const sourceTextLine = leadSource === 'spanish' ? `\nJęzyk: ${sourceLabel}` : ''
+    const levelTextLine = spanishLevel
+      ? `\nPoziom: ${spanishLevel}`
+      : groupsLevel
+        ? `\nPoziom: ${groupsLevel}`
+        : ''
+    const levelHtmlLine = spanishLevel
+      ? `<p><strong>Poziom:</strong> ${spanishLevel}</p>`
+      : groupsLevel
+        ? `<p><strong>Poziom:</strong> ${groupsLevel}</p>`
+        : ''
+    const frequencyTextLine = groupsFrequency ? `\nCzęstotliwość: ${groupsFrequency}` : ''
+    const frequencyHtmlLine = groupsFrequency
+      ? `<p><strong>Częstotliwość:</strong> ${groupsFrequency}</p>`
+      : ''
+    const sourceTextLine =
+      leadSource === 'spanish' || leadSource === 'english-groups' ? `\nJęzyk: ${sourceLabel}` : ''
     const sourceHtmlLine =
-      leadSource === 'spanish' ? `<p><strong>Język:</strong> ${sourceLabel}</p>` : ''
+      leadSource === 'spanish' || leadSource === 'english-groups'
+        ? `<p><strong>Język:</strong> ${sourceLabel}</p>`
+        : ''
 
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
@@ -91,7 +132,7 @@ export async function POST(request: Request) {
       text:
 `Imię: ${name}
 Email: ${mail}
-Telefon: ${tel}${sourceTextLine}${levelTextLine}
+Telefon: ${tel}${sourceTextLine}${levelTextLine}${frequencyTextLine}
 -------------------------
 Zgłoszenie na bezpłatną lekcję próbną.`,
       html: `
@@ -99,7 +140,7 @@ Zgłoszenie na bezpłatną lekcję próbną.`,
         <p><strong>Imię:</strong> ${name}</p>
         <p><strong>Email:</strong> ${mail}</p>
         <p><strong>Telefon:</strong> ${tel}</p>
-        ${sourceHtmlLine}${levelHtmlLine}
+        ${sourceHtmlLine}${levelHtmlLine}${frequencyHtmlLine}
       `,
       tags: [{ name: 'source', value: leadSource }],
     })

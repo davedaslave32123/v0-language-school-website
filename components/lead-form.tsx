@@ -5,7 +5,16 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { SPANISH_LEVELS, THANK_YOU_PATHS, type LeadSource, type SpanishLevel } from "@/lib/leadSource"
+import {
+  ENGLISH_GROUPS_FREQUENCIES,
+  ENGLISH_GROUPS_LEVELS,
+  SPANISH_LEVELS,
+  THANK_YOU_PATHS,
+  type EnglishGroupsFrequency,
+  type EnglishGroupsLevel,
+  type LeadSource,
+  type SpanishLevel,
+} from "@/lib/leadSource"
 import { cn } from "@/lib/utils"
 
 export function LeadForm({ source }: { source: LeadSource }) {
@@ -16,13 +25,15 @@ export function LeadForm({ source }: { source: LeadSource }) {
     phone: "",
     company: "",
   })
-  const [level, setLevel] = useState<SpanishLevel | null>(null)
+  const [level, setLevel] = useState<SpanishLevel | EnglishGroupsLevel | null>(null)
+  const [frequency, setFrequency] = useState<EnglishGroupsFrequency | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "error">("idle")
   const [errorText, setErrorText] = useState<string | null>(null)
   const [consentChecked, setConsentChecked] = useState(false)
 
   const isSpanish = source === "spanish"
+  const isEnglishGroups = source === "english-groups"
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -45,6 +56,20 @@ export function LeadForm({ source }: { source: LeadSource }) {
         return
       }
 
+      if (isEnglishGroups && !level) {
+        setSubmitStatus("error")
+        setErrorText("Zaznacz, jak oceniasz swój poziom.")
+        setIsSubmitting(false)
+        return
+      }
+
+      if (isEnglishGroups && !frequency) {
+        setSubmitStatus("error")
+        setErrorText("Zaznacz częstotliwość zajęć.")
+        setIsSubmitting(false)
+        return
+      }
+
       if (!consentChecked) {
         setSubmitStatus("error")
         setErrorText("Wyrażenie zgody na przetwarzanie danych jest wymagane.")
@@ -59,6 +84,8 @@ export function LeadForm({ source }: { source: LeadSource }) {
           ...formData,
           source,
           ...(isSpanish && level ? { level } : {}),
+          ...(isEnglishGroups && level ? { level } : {}),
+          ...(isEnglishGroups && frequency ? { frequency } : {}),
         }),
       })
 
@@ -77,6 +104,7 @@ export function LeadForm({ source }: { source: LeadSource }) {
 
       setFormData({ firstName: "", email: "", phone: "", company: "" })
       setLevel(null)
+      setFrequency(null)
       setConsentChecked(false)
       router.push(THANK_YOU_PATHS[source])
       return
@@ -173,6 +201,70 @@ export function LeadForm({ source }: { source: LeadSource }) {
               </fieldset>
             )}
 
+            {isEnglishGroups && (
+              <>
+                <fieldset>
+                  <legend className="text-sm font-medium text-foreground mb-3">
+                    Jak oceniasz swój poziom?
+                  </legend>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {ENGLISH_GROUPS_LEVELS.map((option) => (
+                      <label
+                        key={option}
+                        className={cn(
+                          "flex items-center justify-center rounded-lg border-2 px-4 py-3 text-sm text-center font-medium cursor-pointer transition-colors",
+                          level === option
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "border-border bg-background text-muted-foreground hover:border-primary/50"
+                        )}
+                      >
+                        <input
+                          type="radio"
+                          name="level"
+                          value={option}
+                          checked={level === option}
+                          onChange={() => setLevel(option)}
+                          className="sr-only"
+                          required
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend className="text-sm font-medium text-foreground mb-3">
+                    Częstotliwość zajęć?
+                  </legend>
+                  <div className="grid grid-cols-2 gap-3">
+                    {ENGLISH_GROUPS_FREQUENCIES.map((option) => (
+                      <label
+                        key={option}
+                        className={cn(
+                          "flex items-center justify-center rounded-lg border-2 px-4 py-3 text-sm text-center font-medium cursor-pointer transition-colors",
+                          frequency === option
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "border-border bg-background text-muted-foreground hover:border-primary/50"
+                        )}
+                      >
+                        <input
+                          type="radio"
+                          name="frequency"
+                          value={option}
+                          checked={frequency === option}
+                          onChange={() => setFrequency(option)}
+                          className="sr-only"
+                          required
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              </>
+            )}
+
             <label className="flex items-start gap-3 text-sm text-muted-foreground">
               <input
                 type="checkbox"
@@ -204,13 +296,22 @@ export function LeadForm({ source }: { source: LeadSource }) {
               )}
               disabled={isSubmitting || !consentChecked}
             >
-              {isSubmitting ? "Wysyłanie..." : "Zapisuję się na darmową lekcję"}
+              {isSubmitting
+                ? "Wysyłanie..."
+                : isEnglishGroups
+                  ? "Wyślij zgłoszenie – chcę zacząć mówić!"
+                  : "Zapisuję się na darmową lekcję"}
             </Button>
 
             {isSpanish ? (
               <p className="text-sm text-muted-foreground text-center">
                 Wysyłając zgłoszenie, do niczego się nie zobowiązujesz. Skontaktujemy się z
                 Tobą, aby ustalić dogodny termin spotkania. ¡Hasta luego!
+              </p>
+            ) : isEnglishGroups ? (
+              <p className="text-sm text-muted-foreground text-center">
+                Wysyłając zgłoszenie, do niczego się nie zobowiązujesz. Skontaktujemy się z Tobą, aby
+                ustalić dogodny termin.
               </p>
             ) : (
               <p className="text-sm text-muted-foreground text-center">
