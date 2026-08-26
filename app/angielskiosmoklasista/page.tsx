@@ -24,27 +24,12 @@ export const metadata: Metadata = {
     "Kameralne grupy online (2-3 osoby), które przygotowują dziecko do egzaminu ósmoklasisty bez stresu i bez dojazdów. Zacznijcie od darmowej lekcji próbnej.",
 }
 
-type ProofAsset = {
-  id: string
-  src: string
-  alt: string
-  kind: "exam-result" | "parent-message" | "review"
-}
-
-const RESULTS_MEDIA: ProofAsset[] = [
-  {
-    id: "exam-result-1",
-    src: "/images/osmoklasista/wyniki-egzamin-1.jpg",
-    alt: "Wynik egzaminu ósmoklasisty z języka angielskiego",
-    kind: "exam-result",
-  },
-  {
-    id: "parent-message-1",
-    src: "/images/osmoklasista/opinia-rodzica-1.jpg",
-    alt: "Wiadomość od rodzica po zakończonym kursie",
-    kind: "parent-message",
-  },
-]
+const RESULTS_MEDIA = [
+  { image: "/images/osmoklasista/wynik-100.jpg", alt: "Wynik 100% z angielskiego" },
+  { image: "/images/osmoklasista/wynik-93.jpg", alt: "Wynik 93% z angielskiego" },
+  { image: "/images/osmoklasista/wynik-91.jpg", alt: "Wynik 91% z angielskiego" },
+  { image: "/images/osmoklasista/wynik-84.jpg", alt: "Wynik 84% z angielskiego" },
+] as const
 
 const BENEFITS = [
   {
@@ -130,7 +115,7 @@ export default function OsmoklasistaLandingPage() {
                 <div className="absolute -top-4 -left-6 w-32 h-16 border-3 border-primary rounded-full transform -rotate-6 opacity-40" />
                 <h1 className="relative font-serif font-bold leading-tight text-foreground break-words text-[clamp(1.35rem,1.05rem+2.2vw,3rem)]">
                   Spokój Twojego dziecka i pewność wysokiego wyniku z angielskiego na Egzaminie Ósmoklasisty.
-                  Zapomnij o dojazdach i stresie.
+                  <span className="block mt-[1lh]">Zapomnij o dojazdach i stresie.</span>
                 </h1>
               </div>
 
@@ -170,24 +155,7 @@ export default function OsmoklasistaLandingPage() {
 
       <section className="py-12 sm:py-16 lg:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
-            <div className="relative w-full">
-              <Card className="bg-card border-0 shadow-lg overflow-hidden">
-                <CardContent className="p-3 sm:p-4">
-                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-muted/40">
-                    <Image
-                      src="/images/osmoklasista/sekcja-2-bol-i-rozwiazanie.jpg"
-                      alt="Dziecko przygotowujące się do egzaminu ósmoklasisty online"
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      loading="lazy"
-                      className="object-contain"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
+          <div className="max-w-4xl mx-auto space-y-8 lg:space-y-10">
             <div className="space-y-6">
               <div className="relative inline-block max-w-full">
                 <div className="absolute -top-3 -right-2 sm:-right-8 w-28 h-14 border-3 border-primary rounded-full transform rotate-12 opacity-50 pointer-events-none" />
@@ -206,6 +174,23 @@ export default function OsmoklasistaLandingPage() {
                 do nauki online, w którym opanuje strukturę egzaminu, przełamie barierę językową i wejdzie na salę
                 egzaminacyjną z pełnym spokojem.
               </p>
+            </div>
+
+            <div className="relative w-full max-w-3xl mx-auto">
+              <Card className="bg-card border-0 shadow-lg overflow-hidden">
+                <CardContent className="p-3 sm:p-4">
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-muted/40">
+                    <Image
+                      src="/images/osmoklasista/sekcja-2-bol-i-rozwiazanie.jpg"
+                      alt="Dziecko przygotowujące się do egzaminu ósmoklasisty online"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      loading="lazy"
+                      className="object-contain"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -264,17 +249,17 @@ export default function OsmoklasistaLandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {RESULTS_MEDIA.map((item) => (
-                <Card key={item.id} className="bg-card border-0 shadow-lg h-full">
-                  <CardContent className="p-3">
-                    <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-muted/30">
+                <Card key={item.image} className="bg-card border-0 shadow-lg h-full overflow-hidden">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-muted/30 border border-border/50">
                       <Image
-                        src={item.src}
+                        src={item.image}
                         alt={item.alt}
                         fill
                         loading="lazy"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 22vw"
                         className="object-contain"
                       />
                     </div>
@@ -286,7 +271,7 @@ export default function OsmoklasistaLandingPage() {
         </div>
       </section>
 
-      <AboutSection />
+      <AboutSection imageAfterTextOnMobile />
 
       <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
         <div className="container mx-auto px-4">
@@ -312,6 +297,7 @@ export default function OsmoklasistaLandingPage() {
       <TeamSection
         heading="Nauczyciele, z którymi dzieci po prostu chcą się uczyć"
         intro="Zespół naszych doświadczonych lektorów to osoby z pasją, które wiedzą, jak bez stresu i w przyjaznej atmosferze przygotować młodzież do egzaminu państwowego."
+        showBios={false}
       />
 
       <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">

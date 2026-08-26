@@ -30,9 +30,11 @@ const DEFAULT_INTRO =
 export function TeamSection({
   heading = DEFAULT_HEADING,
   intro = DEFAULT_INTRO,
+  showBios = true,
 }: {
   heading?: string
   intro?: string
+  showBios?: boolean
 }) {
   return (
     <section id="zespol" className="py-12 sm:py-16 lg:py-24 bg-muted/30">
@@ -63,7 +65,7 @@ export function TeamSection({
               </div>
               <CardContent className="p-6 text-center space-y-3">
                 <h3 className="font-serif text-xl font-bold text-foreground">{tutor.name}</h3>
-                <p className="text-muted-foreground leading-relaxed">{tutor.description}</p>
+                {showBios ? <p className="text-muted-foreground leading-relaxed">{tutor.description}</p> : null}
               </CardContent>
             </Card>
           ))}
