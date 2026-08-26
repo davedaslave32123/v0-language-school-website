@@ -23,22 +23,26 @@ const tutors = [
   },
 ]
 
-export function TeamSection() {
+const DEFAULT_HEADING = "Poznaj mój zespół – dzięki niemu polubisz angielski"
+const DEFAULT_INTRO =
+  "Nie działam sama! Stworzyłam zespół wyjątkowych lektorów, którzy dzielą moją filozofię pracy. To nie są surowi nauczyciele z czerwonym długopisem. To empatyczni partnerzy w rozmowie, którzy wiedzą, jak stworzyć bezstresową atmosferę i pomóc Ci otworzyć się na język."
+
+export function TeamSection({
+  heading = DEFAULT_HEADING,
+  intro = DEFAULT_INTRO,
+}: {
+  heading?: string
+  intro?: string
+}) {
   return (
     <section id="zespol" className="py-12 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <div className="relative inline-block">
             <div className="absolute -top-3 -right-8 w-28 h-14 border-3 border-secondary rounded-full transform rotate-12 opacity-50"></div>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">
-              Poznaj mój zespół – dzięki niemu polubisz angielski
-            </h2>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">{heading}</h2>
           </div>
-          <p className="text-xl text-muted-foreground mt-4">
-            Nie działam sama! Stworzyłam zespół wyjątkowych lektorów, którzy dzielą moją filozofię pracy. To nie są
-            surowi nauczyciele z czerwonym długopisem. To empatyczni partnerzy w rozmowie, którzy wiedzą, jak stworzyć
-            bezstresową atmosferę i pomóc Ci otworzyć się na język.
-          </p>
+          <p className="text-xl text-muted-foreground mt-4">{intro}</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">

@@ -5,10 +5,12 @@ import {
   ENGLISH_GROUPS_LEVELS,
   LEAD_SOURCES,
   LEAD_SOURCE_LABELS,
+  OSMOKLASISTA_BOTTOM_INTERESTS,
   SPANISH_LEVELS,
   type EnglishGroupsFrequency,
   type EnglishGroupsLevel,
   type LeadSource,
+  type OsmoklasistaBottomInterest,
   type SpanishLevel,
 } from '@/lib/leadSource'
 
@@ -20,7 +22,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}))
-    const { firstName, email, phone, company, source, level, frequency } = body || {}
+    const { firstName, email, phone, company, source, level, frequency, interest } = body || {}
 
     // Honeypot: real users never see/fill `company`. If it's set, it's a bot.
     // Respond with success so the bot believes it worked, but send nothing.
@@ -84,6 +86,24 @@ export async function POST(request: Request) {
       groupsFrequency = frequency as EnglishGroupsFrequency
     }
 
+    let osmoklasistaInterest: OsmoklasistaBottomInterest | null = null
+    if (leadSource === 'osmoklasista') {
+      const bottomChoice =
+        typeof interest === 'string' &&
+        OSMOKLASISTA_BOTTOM_INTERESTS.includes(interest as OsmoklasistaBottomInterest)
+          ? (interest as OsmoklasistaBottomInterest)
+          : null
+
+      if (!bottomChoice) {
+        return NextResponse.json(
+          { success: false, error: 'Wybierz preferowaną formę zajęć.' },
+          { status: 400 }
+        )
+      }
+
+      osmoklasistaInterest = bottomChoice
+    }
+
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { success: false, error: 'Brak RESEND_API_KEY w środowisku' },
@@ -95,9 +115,12 @@ export async function POST(request: Request) {
 
     const sourceLabel = LEAD_SOURCE_LABELS[leadSource]
 
+    const isOsmoklasista = leadSource === 'osmoklasista'
+
     // English keeps its original subject/body; Spanish and english-groups get labelled variants.
-    const subject =
-      leadSource === 'spanish'
+    const subject = isOsmoklasista
+      ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
+      : leadSource === 'spanish'
         ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
         : leadSource === 'english-groups'
           ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
@@ -124,6 +147,15 @@ export async function POST(request: Request) {
         ? `<p><strong>Język:</strong> ${sourceLabel}</p>`
         : ''
 
+    const interestTextLine =
+      isOsmoklasista && osmoklasistaInterest ? `\nPreferowana forma zajęć: ${osmoklasistaInterest}` : ''
+    const interestHtmlLine =
+      isOsmoklasista && osmoklasistaInterest
+        ? `<p><strong>Preferowana forma zajęć:</strong> ${osmoklasistaInterest}</p>`
+        : ''
+    const osmoklasistaSourceTextLine = isOsmoklasista ? `\nJęzyk: ${sourceLabel}` : ''
+    const osmoklasistaSourceHtmlLine = isOsmoklasista ? `<p><strong>Język:</strong> ${sourceLabel}</p>` : ''
+
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: ['kontakt@agaodjezykow.com'],
@@ -132,7 +164,7 @@ export async function POST(request: Request) {
       text:
 `Imię: ${name}
 Email: ${mail}
-Telefon: ${tel}${sourceTextLine}${levelTextLine}${frequencyTextLine}
+Telefon: ${tel}${sourceTextLine}${osmoklasistaSourceTextLine}${levelTextLine}${frequencyTextLine}${interestTextLine}
 -------------------------
 Zgłoszenie na bezpłatną lekcję próbną.`,
       html: `
@@ -140,7 +172,7 @@ Zgłoszenie na bezpłatną lekcję próbną.`,
         <p><strong>Imię:</strong> ${name}</p>
         <p><strong>Email:</strong> ${mail}</p>
         <p><strong>Telefon:</strong> ${tel}</p>
-        ${sourceHtmlLine}${levelHtmlLine}${frequencyHtmlLine}
+        ${sourceHtmlLine}${osmoklasistaSourceHtmlLine}${levelHtmlLine}${frequencyHtmlLine}${interestHtmlLine}
       `,
       tags: [{ name: 'source', value: leadSource }],
     })
