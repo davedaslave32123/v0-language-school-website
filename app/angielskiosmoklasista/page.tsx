@@ -25,10 +25,34 @@ export const metadata: Metadata = {
 }
 
 const RESULTS_MEDIA = [
-  { image: "/images/osmoklasista/wynik-100.jpg", alt: "Wynik 100% z angielskiego" },
-  { image: "/images/osmoklasista/wynik-93.jpg", alt: "Wynik 93% z angielskiego" },
-  { image: "/images/osmoklasista/wynik-91.jpg", alt: "Wynik 91% z angielskiego" },
-  { image: "/images/osmoklasista/wynik-84.jpg", alt: "Wynik 84% z angielskiego" },
+  {
+    image: "/images/osmoklasista/wynik-100.jpg",
+    alt: "Wynik 100% z angielskiego",
+    width: 817,
+    height: 1024,
+    previewHeightClass: "h-44 sm:h-52",
+  },
+  {
+    image: "/images/osmoklasista/wynik-93.jpg",
+    alt: "Wynik 93% z angielskiego",
+    width: 968,
+    height: 179,
+    previewHeightClass: "h-24 sm:h-28",
+  },
+  {
+    image: "/images/osmoklasista/wynik-91.jpg",
+    alt: "Wynik 91% z angielskiego",
+    width: 1024,
+    height: 314,
+    previewHeightClass: "h-28 sm:h-32",
+  },
+  {
+    image: "/images/osmoklasista/wynik-84.jpg",
+    alt: "Wynik 84% z angielskiego",
+    width: 966,
+    height: 180,
+    previewHeightClass: "h-24 sm:h-28",
+  },
 ] as const
 
 const BENEFITS = [
@@ -249,29 +273,32 @@ export default function OsmoklasistaLandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {RESULTS_MEDIA.map((item) => (
-                <Card key={item.image} className="bg-card border-0 shadow-lg h-full overflow-hidden">
-                  <CardContent className="p-3 sm:p-4">
-                    <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-muted/30 border border-border/50">
-                      <Image
-                        src={item.image}
-                        alt={item.alt}
-                        fill
-                        loading="lazy"
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 22vw"
-                        className="object-contain"
-                      />
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.12),transparent_60%)]" />
+              <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                {RESULTS_MEDIA.map((item, index) => (
+                  <figure key={item.image} className={cn("self-start", index % 2 === 0 ? "lg:translate-y-1" : "lg:-translate-y-1")}>
+                    <div className="rounded-xl bg-background/80 border border-border/45 p-1.5 shadow-[0_12px_24px_-20px_hsl(var(--foreground)/0.9)]">
+                      <div className={cn("relative w-full rounded-lg overflow-hidden bg-muted/25", item.previewHeightClass)}>
+                        <Image
+                          src={item.image}
+                          alt={item.alt}
+                          fill
+                          loading="lazy"
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 22vw"
+                          className="object-contain p-1"
+                        />
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  </figure>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <AboutSection imageAfterTextOnMobile />
+      <AboutSection />
 
       <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
         <div className="container mx-auto px-4">
