@@ -11,7 +11,6 @@ import {
   Target,
   Users,
 } from "lucide-react"
-import { AboutSection } from "@/components/about-section"
 import { OsmoklasistaLeadForm } from "@/components/osmoklasista/osmoklasista-lead-form"
 import { TeamSection } from "@/components/team-section"
 import { TrialCtaButton } from "@/components/trial-cta-button"
@@ -119,6 +118,12 @@ const RULES = [
     icon: Handshake,
     color: "primary" as const,
   },
+]
+
+const OSMOKLASISTA_ABOUT_POINTS = [
+  "z osobami wyjątkowo zdolnymi, które potrzebowały skrzydeł,",
+  "z dziećmi z wyzwaniami w przyswajaniu wiedzy,",
+  "oraz z uczniami bardzo nieśmiałymi, dla których przełamanie bariery językowej było największym wyzwaniem.",
 ]
 
 export default function OsmoklasistaLandingPage() {
@@ -298,7 +303,71 @@ export default function OsmoklasistaLandingPage() {
         </div>
       </section>
 
-      <AboutSection />
+      <section id="o-mnie" className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="relative lg:sticky lg:top-12">
+              <div className="absolute -top-6 -left-6 w-48 h-24 border-4 border-primary rounded-full transform rotate-6 opacity-40" />
+              <Card className="relative z-10 bg-card border-0 shadow-lg overflow-hidden">
+                <div className="relative w-full aspect-[4/5]">
+                  <Image
+                    src="/images/aga-dots.jpg"
+                    alt="Aga - lektorka języka angielskiego"
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 92vw, 45vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+              </Card>
+            </div>
+
+            <div className="space-y-6 sm:space-y-7">
+              <div className="relative">
+                <div className="absolute -top-3 -right-8 w-20 h-10 border-3 border-secondary rounded-full transform rotate-12 opacity-60" />
+                <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground">Cześć! Mam na imię Aga</h2>
+              </div>
+
+              <p className="text-base sm:text-lg text-foreground leading-relaxed">
+                Od 10 lat z pasją pomagam dzieciom i młodzieży odkrywać, że język angielski wcale nie musi być trudny
+                ani stresujący. W tym czasie miałam przyjemność pracować z uczniami w każdym wieku – od maluchów
+                stawiających swoje pierwsze kroki w nauce, aż po licealistów.
+              </p>
+
+              <p className="text-base sm:text-lg text-foreground leading-relaxed">
+                Specjalizuję się m.in. w przygotowaniu do egzaminu ósmoklasisty. Moi kursanci mają na swoim koncie
+                naprawdę niesamowite wyniki, ale dla mnie sukces to coś więcej niż tylko punkty na arkuszu. Przez lata
+                pracowałam z bardzo różnymi młodymi ludźmi:
+              </p>
+
+              <ul className="space-y-3">
+                {OSMOKLASISTA_ABOUT_POINTS.map((point) => (
+                  <li key={point} className="flex items-start gap-3 text-base sm:text-lg text-foreground leading-relaxed">
+                    <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary flex-shrink-0" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-base sm:text-lg text-foreground leading-relaxed">
+                Dzięki temu wiem, jak kluczowa jest bezpieczna i przyjazna atmosfera na zajęciach. Kiedy znika stres,
+                pojawia się naturalna ciekawość i pewność siebie.
+              </p>
+
+              <p className="text-base sm:text-lg text-foreground leading-relaxed">
+                Nasze kursy grupowe to wynik nie tylko mojego doświadczenia, ale pracy całego zespołu. Wszyscy lektorzy
+                doskonale znają aktualne wymagania egzaminacyjne. Wiemy dokładnie, które zadania sprawiają uczniom
+                największą trudność, co pojawia się na egzaminach co roku i jak skutecznie opanować kluczowy materiał
+                – bez zbędnego przytłoczenia.
+              </p>
+
+              <p className="text-base sm:text-lg text-foreground leading-relaxed">
+                Zależy mi, aby każdy uczeń czuł się u nas zaopiekowany, dostrzeżony i zmotywowany do działania.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
         <div className="container mx-auto px-4">
