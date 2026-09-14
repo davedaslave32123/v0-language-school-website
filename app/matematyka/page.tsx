@@ -122,10 +122,10 @@ const METHOD_STEPS = [
 // so new entries only need their real pixel dimensions to render correctly.
 const REVIEWS = [
   {
-    image: "/images/matematyka/reviews/opinia-lidia-matematyka-1.jpg",
+    image: "/images/matematyka/reviews/opinia-lidia-matematyka-1.png",
     alt: "Opinia rodzica o zajęciach z matematyki z Lidią",
-    width: 1024,
-    height: 515,
+    width: 860,
+    height: 623,
   },
   {
     image: "/images/matematyka/reviews/opinia-lidia-matematyka-2.png",
