@@ -183,7 +183,7 @@ export default function MatematykaLandingPage() {
               <div className="relative min-w-0">
                 <div className="absolute -top-4 -left-6 w-32 h-16 border-3 border-primary rounded-full transform -rotate-6 opacity-40" />
                 <h1 className="relative font-serif font-bold leading-tight text-foreground break-words text-[clamp(1.35rem,1.05rem+2.2vw,3rem)]">
-                  Matematyka przestała być zrozumiała, a korepetycje kojarzą Wam się ze stresem?
+                  Masz dość wieczornej walki z matematyką i stresu przed sprawdzianami?
                 </h1>
               </div>
 
