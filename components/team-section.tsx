@@ -2,23 +2,29 @@ import { Card, CardContent } from "@/components/ui/card"
 import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
 
-const tutors = [
+export type Tutor = {
+  name: string
+  photo: string
+  bio: string
+}
+
+const DEFAULT_TUTORS: Tutor[] = [
   {
     name: "Lidia",
     photo: "/images/tutors/lidia.jpg",
-    description:
+    bio:
       "Specjalistka od „rozgadywania\". Potrafi przełamać lody w kilka minut. Ma ogromne pokłady cierpliwości i potrafi dostosować tempo do każdego, nawet najbardziej zestresowanego ucznia. Z nią zapomnisz, czym jest paraliż przed mówieniem.",
   },
   {
     name: "Kasia",
     photo: "/images/tutors/kasia.jpg",
-    description:
+    bio:
       "Mistrzyni praktycznego angielskiego. Skupia się na żywym języku, którego naprawdę potrzebujesz w pracy i w podróży. Pokazuje, że błędy są naturalną częścią nauki, a nie powodem do wstydu. Na jej lekcjach po prostu dobrze się rozmawia.",
   },
   {
     name: "Julia",
     photo: "/images/tutors/julia.jpg",
-    description:
+    bio:
       "Wulkan kreatywności i ciepła. Wyróżnia ją ogromna empatia – doskonale rozumie Twoje obawy i dba o to, abyś na lekcji czuła się w 100% bezpiecznie. Dobiera tematy tak, że rozmawiacie o tym, co naprawdę Cię interesuje, a bariera językowa znika sama.",
   },
 ]
@@ -31,11 +37,21 @@ export function TeamSection({
   heading = DEFAULT_HEADING,
   intro = DEFAULT_INTRO,
   showBios = true,
+  tutors = DEFAULT_TUTORS,
 }: {
   heading?: string
   intro?: string
   showBios?: boolean
+  tutors?: Tutor[]
 }) {
+  // Rosters of three or more keep the original three-column layout; a shorter
+  // roster (e.g. the maths page) centers in a narrower two-column grid instead
+  // of leaving a hole in the third column.
+  const gridClassName =
+    tutors.length >= 3
+      ? "grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto"
+      : "grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto"
+
   return (
     <section id="zespol" className="py-12 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -47,7 +63,7 @@ export function TeamSection({
           <p className="text-xl text-muted-foreground mt-4">{intro}</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className={gridClassName}>
           {tutors.map((tutor, index) => (
             <Card
               key={index}
@@ -65,7 +81,7 @@ export function TeamSection({
               </div>
               <CardContent className="p-6 text-center space-y-3">
                 <h3 className="font-serif text-xl font-bold text-foreground">{tutor.name}</h3>
-                {showBios ? <p className="text-muted-foreground leading-relaxed">{tutor.description}</p> : null}
+                {showBios ? <p className="text-muted-foreground leading-relaxed">{tutor.bio}</p> : null}
               </CardContent>
             </Card>
           ))}

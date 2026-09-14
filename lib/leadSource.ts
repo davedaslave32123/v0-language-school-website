@@ -1,4 +1,4 @@
-export const LEAD_SOURCES = ['english', 'spanish', 'english-groups', 'osmoklasista'] as const
+export const LEAD_SOURCES = ['english', 'spanish', 'english-groups', 'osmoklasista', 'matematyka'] as const
 export type LeadSource = (typeof LEAD_SOURCES)[number]
 
 export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
@@ -6,6 +6,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   spanish: 'Hiszpański',
   'english-groups': 'Angielski – Grupy',
   osmoklasista: 'Egzamin Ósmoklasisty',
+  matematyka: 'Matematyka',
 }
 
 export const THANK_YOU_PATHS: Record<LeadSource, string> = {
@@ -13,6 +14,7 @@ export const THANK_YOU_PATHS: Record<LeadSource, string> = {
   spanish: '/dziekujehiszpanski',
   'english-groups': '/dziekujeangielskigrupy',
   osmoklasista: '/dziekujeangielskiosmoklasista',
+  matematyka: '/dziekujematematyka',
 }
 
 export const SPANISH_LEVELS = ['Dopiero zaczynam', 'Znam już podstawy'] as const

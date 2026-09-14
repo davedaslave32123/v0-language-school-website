@@ -22,7 +22,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}))
-    const { firstName, email, phone, company, source, level, frequency, interest } = body || {}
+    const { firstName, email, phone, company, source, level, frequency, interest, childInfo } = body || {}
 
     // Honeypot: real users never see/fill `company`. If it's set, it's a bot.
     // Respond with success so the bot believes it worked, but send nothing.
@@ -104,6 +104,19 @@ export async function POST(request: Request) {
       osmoklasistaInterest = bottomChoice
     }
 
+    // Maths leads must say who the lesson is for (name + school year / age).
+    let mathsChildInfo: string | null = null
+    if (leadSource === 'matematyka') {
+      const child = typeof childInfo === 'string' ? childInfo.trim() : ''
+      if (!child || child.length > 200) {
+        return NextResponse.json(
+          { success: false, error: 'Podaj imię oraz klasę lub wiek dziecka.' },
+          { status: 400 }
+        )
+      }
+      mathsChildInfo = child
+    }
+
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { success: false, error: 'Brak RESEND_API_KEY w środowisku' },
@@ -116,9 +129,10 @@ export async function POST(request: Request) {
     const sourceLabel = LEAD_SOURCE_LABELS[leadSource]
 
     const isOsmoklasista = leadSource === 'osmoklasista'
+    const isMatematyka = leadSource === 'matematyka'
 
     // English keeps its original subject/body; Spanish and english-groups get labelled variants.
-    const subject = isOsmoklasista
+    const subject = isOsmoklasista || isMatematyka
       ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
       : leadSource === 'spanish'
         ? `Nowe zgłoszenie (${sourceLabel}) – lekcja próbna od ${name}`
@@ -156,23 +170,30 @@ export async function POST(request: Request) {
     const osmoklasistaSourceTextLine = isOsmoklasista ? `\nJęzyk: ${sourceLabel}` : ''
     const osmoklasistaSourceHtmlLine = isOsmoklasista ? `<p><strong>Język:</strong> ${sourceLabel}</p>` : ''
 
+    const matematykaSourceTextLine = isMatematyka ? `\nPrzedmiot: ${sourceLabel}` : ''
+    const matematykaSourceHtmlLine = isMatematyka ? `<p><strong>Przedmiot:</strong> ${sourceLabel}</p>` : ''
+    const childTextLine = mathsChildInfo ? `\nDziecko (imię i klasa/wiek): ${mathsChildInfo}` : ''
+    const childHtmlLine = mathsChildInfo
+      ? `<p><strong>Dziecko (imię i klasa/wiek):</strong> ${mathsChildInfo}</p>`
+      : ''
+
     const { data, error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: ['kontakt@agaodjezykow.com'],
       replyTo: mail,
       subject,
       text:
-`Imię: ${name}
+`Imię: ${name}${childTextLine}
 Email: ${mail}
-Telefon: ${tel}${sourceTextLine}${osmoklasistaSourceTextLine}${levelTextLine}${frequencyTextLine}${interestTextLine}
+Telefon: ${tel}${sourceTextLine}${osmoklasistaSourceTextLine}${matematykaSourceTextLine}${levelTextLine}${frequencyTextLine}${interestTextLine}
 -------------------------
 Zgłoszenie na bezpłatną lekcję próbną.`,
       html: `
         <h2>Nowe zgłoszenie na bezpłatną lekcję próbną</h2>
         <p><strong>Imię:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${mail}</p>
+        ${childHtmlLine}<p><strong>Email:</strong> ${mail}</p>
         <p><strong>Telefon:</strong> ${tel}</p>
-        ${sourceHtmlLine}${osmoklasistaSourceHtmlLine}${levelHtmlLine}${frequencyHtmlLine}${interestHtmlLine}
+        ${sourceHtmlLine}${osmoklasistaSourceHtmlLine}${matematykaSourceHtmlLine}${levelHtmlLine}${frequencyHtmlLine}${interestHtmlLine}
       `,
       tags: [{ name: 'source', value: leadSource }],
     })

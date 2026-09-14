@@ -2,7 +2,13 @@ import { Card } from "@/components/ui/card"
 import { TrialCtaButton } from "@/components/trial-cta-button"
 import Image from "next/image"
 
-const reasons = [
+export type AboutPoint = {
+  title: string
+  description: string
+  color: string
+}
+
+const reasons: AboutPoint[] = [
   {
     title: "Wiesz, co chcesz powiedzieć, ale milczysz?",
     description:
@@ -22,7 +28,27 @@ const reasons = [
   },
 ]
 
-export function AboutSection({ imageAfterTextOnMobile = false }: { imageAfterTextOnMobile?: boolean }) {
+const DEFAULT_INTRO =
+  "Od 10 lat pomagam ludziom ruszyć z miejsca i zacząć swobodnie mówić po angielsku. Przez ten czas pracowałam w różnych środowiskach i widziałam już chyba każdy rodzaj językowej blokady."
+const DEFAULT_POINTS_HEADING = "Dlaczego robię to inaczej niż tradycyjne szkoły? Bo doskonale wiem, co czujesz:"
+const DEFAULT_CLOSING =
+  "Udowodnię Ci, że na to wszystko jest rada. Moje lekcje próbne są po to, żebyś w 100% bezpiecznej, luźnej atmosferze zobaczyła, że mówienie po angielsku może być przyjemnością, a nie egzaminem."
+
+export function AboutSection({
+  imageAfterTextOnMobile = false,
+  intro = DEFAULT_INTRO,
+  pointsHeading = DEFAULT_POINTS_HEADING,
+  points = reasons,
+  closing = DEFAULT_CLOSING,
+  imagePriority = true,
+}: {
+  imageAfterTextOnMobile?: boolean
+  intro?: string
+  pointsHeading?: string
+  points?: AboutPoint[]
+  closing?: string
+  imagePriority?: boolean
+}) {
   return (
     <section id="o-mnie" className="py-12 sm:py-16 lg:py-24 bg-background grid-pattern">
       <div className="container mx-auto px-4">
@@ -35,7 +61,7 @@ export function AboutSection({ imageAfterTextOnMobile = false }: { imageAfterTex
                   src="/images/aga-dots.jpg"
                   alt="Aga - lektorka języka angielskiego"
                   fill
-                  priority
+                  priority={imagePriority}
                   sizes="(max-width: 1024px) 92vw, 45vw"
                   className="object-cover object-top"
                 />
@@ -51,17 +77,12 @@ export function AboutSection({ imageAfterTextOnMobile = false }: { imageAfterTex
               </h2>
             </div>
 
-            <p className="text-lg text-foreground leading-relaxed">
-              Od 10 lat pomagam ludziom ruszyć z miejsca i zacząć swobodnie mówić po angielsku. Przez ten czas
-              pracowałam w różnych środowiskach i widziałam już chyba każdy rodzaj językowej blokady.
-            </p>
+            <p className="text-lg text-foreground leading-relaxed">{intro}</p>
 
-            <p className="text-lg font-bold text-foreground">
-              Dlaczego robię to inaczej niż tradycyjne szkoły? Bo doskonale wiem, co czujesz:
-            </p>
+            <p className="text-lg font-bold text-foreground">{pointsHeading}</p>
 
             <div className="space-y-6">
-              {reasons.map((reason, index) => (
+              {points.map((reason, index) => (
                 <div key={index} className="flex items-start gap-4">
                   <div
                     className={`w-3 h-3 rounded-full mt-2 flex-shrink-0 ${
@@ -76,10 +97,7 @@ export function AboutSection({ imageAfterTextOnMobile = false }: { imageAfterTex
             </div>
 
             <div className="bg-muted/50 rounded-xl p-6">
-              <p className="text-lg text-foreground italic leading-relaxed">
-                Udowodnię Ci, że na to wszystko jest rada. Moje lekcje próbne są po to, żebyś w 100% bezpiecznej,
-                luźnej atmosferze zobaczyła, że mówienie po angielsku może być przyjemnością, a nie egzaminem.
-              </p>
+              <p className="text-lg text-foreground italic leading-relaxed">{closing}</p>
             </div>
 
             <div className="flex justify-center lg:justify-start">
